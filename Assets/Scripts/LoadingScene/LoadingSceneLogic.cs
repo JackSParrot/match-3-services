@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game.Services;
 using UnityEngine;
@@ -43,7 +44,8 @@ namespace Game.Load
             RemoteConfigGameService remoteConfig = new RemoteConfigGameService();
             LoginGameService loginService = new LoginGameService();
             AnalyticsGameService analyticsService = new AnalyticsGameService();
-            AdsGameService adsService = new AdsGameService("#######", "Rewarded_Android");
+            AdsGameService adsService = new AdsGameService("4920717", "Rewarded_Android");
+            UnityIAPGameService iapService = new UnityIAPGameService();
 
             //register services
             ServiceLocator.RegisterService(gameConfig);
@@ -52,14 +54,19 @@ namespace Game.Load
             ServiceLocator.RegisterService(loginService);
             ServiceLocator.RegisterService(adsService);
             ServiceLocator.RegisterService(analyticsService);
+            ServiceLocator.RegisterService(iapService);
 
             //initialize services
             await servicesInitializer.Initialize();
             await loginService.Initialize();
             await remoteConfig.Initialize();
             await analyticsService.Initialize();
+            await iapService.Initialize(new Dictionary<string, string>
+            {
+                ["test1"] = "es.jacksparrot.match3.test1"
+            });
             bool adsInitialized = await adsService.Initialize(Application.isEditor);
-            
+
             Debug.Log("AdsInitialized: " + adsInitialized);
 
             gameConfig.Initialize(remoteConfig);

@@ -9,6 +9,7 @@ public class StoreView : MonoBehaviour
     private GameConfigService      _gameConfig;
     private GameProgressionService _gameProgression;
     private AdsGameService         _adsService;
+    private IIAPGameService        _iapService;
 
     [SerializeField]
     private Button _buyBoosterButton;
@@ -28,12 +29,15 @@ public class StoreView : MonoBehaviour
     private TMP_Text _adsGemsText = null;
     [SerializeField]
     private TMP_Text _iapGemsText = null;
+    [SerializeField]
+    private TMP_Text _iapGemsCostText = null;
 
     private void Awake()
     {
         _gameConfig = ServiceLocator.GetService<GameConfigService>();
         _gameProgression = ServiceLocator.GetService<GameProgressionService>();
         _adsService = ServiceLocator.GetService<AdsGameService>();
+        _iapService = ServiceLocator.GetService<IIAPGameService>();
     }
 
     private void Start()
@@ -43,6 +47,7 @@ public class StoreView : MonoBehaviour
         _goldAmountText.text = _gameConfig.GoldInGoldPack.ToString();
         _adsGemsText.text = _gameConfig.GemsPerAd.ToString();
         _iapGemsText.text = _gameConfig.GemsPerIAP.ToString();
+        _iapGemsCostText.text = "Loading...";
         _gameProgression.OnInventoryChanged += UpdateCards;
 
         UpdateCards();
@@ -50,9 +55,6 @@ public class StoreView : MonoBehaviour
 
     private void UpdateCards()
     {
-        //coming soon, just for debug we enable it
-        _buyIAPGemsButton.interactable = true;
-
         _buyBoosterButton.interactable = _gameProgression.Gold >= _gameConfig.GoldPerBooster;
         _boosterCostText.color = _gameProgression.Gold >= _gameConfig.GoldPerBooster ? Color.white : Color.red;
 
@@ -66,6 +68,13 @@ public class StoreView : MonoBehaviour
             _buyAdGemsButton.interactable = false;
             StartCoroutine(WaitForAdReady());
         }
+
+        _buyIAPGemsButton.interactable = true;
+        if (!_iapService.IsReady())
+        {
+            _buyIAPGemsButton.interactable = false;
+            StartCoroutine(WaitForIAPReady());
+        }
     }
 
     IEnumerator WaitForAdReady()
@@ -76,6 +85,17 @@ public class StoreView : MonoBehaviour
         }
 
         _buyAdGemsButton.interactable = true;
+    }
+
+    IEnumerator WaitForIAPReady()
+    {
+        while (!_iapService.IsReady())
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        _buyIAPGemsButton.interactable = true;
+        _iapGemsCostText.text = _iapService.GetLocalizedPrice("test1");
     }
 
     public void PurchaseBooster()
@@ -92,10 +112,17 @@ public class StoreView : MonoBehaviour
         UpdateCards();
     }
 
-    public void PurchaseIAPGems()
+    public async void PurchaseIAPGems()
     {
-        _gameProgression.UpdateGems(_gameConfig.GemsPerIAP);
-        UpdateCards();
+        if (await _iapService.StartPurchase("test1"))
+        {
+            _gameProgression.UpdateGems(_gameConfig.GemsPerIAP);
+            UpdateCards();
+        }
+        else
+        {
+            Debug.LogError("Purchase failed");
+        }
     }
 
     public async void PurchaseAdGems()
@@ -104,6 +131,10 @@ public class StoreView : MonoBehaviour
         {
             _gameProgression.UpdateGems(_gameConfig.GemsPerAd);
             UpdateCards();
+        }
+        else
+        {
+            Debug.LogError("ad failed");
         }
     }
 }

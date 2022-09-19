@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -10,8 +9,9 @@ namespace Game.Services
     {
         private string _adsGameId;
         private string _adUnitId;
+        private bool   _isAdLoaded = false;
 
-        public bool IsAdReady => IsInitialized && Advertisement.IsReady(_adUnitId);
+        public bool IsAdReady => IsInitialized && _isAdLoaded;
         public bool IsInitialized => _initializationTaskStatus == TaskStatus.RanToCompletion;
 
         private TaskStatus _initializationTaskStatus = TaskStatus.Created;
@@ -26,7 +26,7 @@ namespace Game.Services
         public async Task<bool> Initialize(bool testMode = false)
         {
             _initializationTaskStatus = TaskStatus.Running;
-            Advertisement.Initialize(_adsGameId, testMode, true, this);
+            Advertisement.Initialize(_adsGameId, testMode, this);
             while (_initializationTaskStatus == TaskStatus.Running)
             {
                 await Task.Delay(500);
@@ -50,12 +50,14 @@ namespace Game.Services
 
         private void LoadAd()
         {
+            _isAdLoaded = false;
             Debug.Log("Loading Ad: " + _adUnitId);
             Advertisement.Load(_adUnitId, this);
         }
 
         public void OnUnityAdsAdLoaded(string adUnitId)
         {
+            _isAdLoaded = true;
             Debug.Log("Ad Loaded: " + adUnitId);
         }
 
