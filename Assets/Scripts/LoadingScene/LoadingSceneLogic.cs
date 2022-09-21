@@ -46,6 +46,7 @@ namespace Game.Load
             AnalyticsGameService analyticsService = new AnalyticsGameService();
             AdsGameService adsService = new AdsGameService("4920717", "Rewarded_Android");
             UnityIAPGameService iapService = new UnityIAPGameService();
+            IGameProgressionProvider gameProgressionProvider = new GameProgressionProvider();
 
             //register services
             ServiceLocator.RegisterService(gameConfig);
@@ -66,9 +67,10 @@ namespace Game.Load
                 ["test1"] = "es.jacksparrot.match3.test1"
             });
             await adsService.Initialize(Application.isEditor);
+            await gameProgressionProvider.Initialize();
 
             gameConfig.Initialize(remoteConfig);
-            gameProgression.Initialize(gameConfig);
+            gameProgression.Initialize(gameConfig, gameProgressionProvider);
 
             SceneManager.LoadScene(1);
         }

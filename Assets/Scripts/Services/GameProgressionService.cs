@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Game.Services
 {
-    
     [System.Serializable]
     public class GameProgressionService : IService
     {
@@ -18,12 +18,34 @@ namespace Game.Services
 
         public event Action OnInventoryChanged;
 
-        private AnalyticsGameService _analytics;
+        private AnalyticsGameService     _analytics;
+        private IGameProgressionProvider _progressionProvider;
 
-        public void Initialize(GameConfigService gameConfig)
+        public void Initialize(GameConfigService gameConfig, IGameProgressionProvider progressionProvider)
         {
             _analytics = ServiceLocator.GetService<AnalyticsGameService>();
+            _progressionProvider = progressionProvider;
             Load(gameConfig);
+        }
+
+        private void Load(GameConfigService config)
+        {
+            string data = _progressionProvider.Load();
+            if (string.IsNullOrEmpty(data))
+            {
+                Gems = config.InitialGems;
+                _gold = config.InitialGold;
+                Save();
+            }
+            else
+            {
+                JsonUtility.FromJsonOverwrite(data, this);
+            }
+        }
+
+        private void Save()
+        {
+            _progressionProvider.Save(JsonUtility.ToJson(this));
         }
 
         public void UpdateGold(int amount)
@@ -53,26 +75,6 @@ namespace Game.Services
         }
 
 //save and load
-        private static string kSavePath = "/gameProgression.json";
-
-        public void Save()
-        {
-            System.IO.File.WriteAllText(Application.persistentDataPath + kSavePath, JsonUtility.ToJson(this));
-        }
-
-        private void Load(GameConfigService config)
-        {
-            if (System.IO.File.Exists(Application.persistentDataPath + kSavePath))
-            {
-                JsonUtility.FromJsonOverwrite(System.IO.File.ReadAllText(Application.persistentDataPath + kSavePath),
-                    this);
-                return;
-            }
-
-            _gold = config.InitialGold;
-            Gems = config.InitialGems;
-            Save();
-        }
 //end of save and load
 
         public void Clear()

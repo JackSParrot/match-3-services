@@ -12,7 +12,6 @@ namespace Game.Services
         private TaskStatus       _purchaseTaskStatus   = TaskStatus.Created;
         private TaskStatus       _initializeTaskStatus = TaskStatus.Created;
 
-
         public async Task Initialize(Dictionary<string, string> products)
         {
             _isInitialized = false;

@@ -152,8 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f4cf20a1eebad438143bb9b9bb211b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prodEnvironmentId: production
-  _devEnvironmentId: development
   IsDevBuild: 1
 --- !u!4 &651730331
 Transform:
