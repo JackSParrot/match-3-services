@@ -2,11 +2,11 @@
     "m_SelectedDeviceId": "f0c2146c",
     "m_SelectedPackage": {
         "deviceId": "f0c2146c",
-        "name": "es.jacksparrot.nam3d",
-        "processId": 18946,
+        "name": "es.jacksparrot.match3",
+        "processId": 29509,
         "exited": false
     },
-    "m_SelectedPriority": 4,
+    "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "f0c2146c",
@@ -17,43 +17,31 @@
         {
             "deviceId": "f0c2146c",
             "name": "es.jacksparrot.nam3d",
-            "processId": 31798,
-            "exited": true
-        },
-        {
-            "deviceId": "f0c2146c",
-            "name": "es.jacksparrot.nam3d",
-            "processId": 333,
-            "exited": true
-        },
-        {
-            "deviceId": "f0c2146c",
-            "name": "es.jacksparrot.nam3d",
-            "processId": 13676,
-            "exited": true
-        },
-        {
-            "deviceId": "f0c2146c",
-            "name": "es.jacksparrot.nam3d",
-            "processId": 14851,
-            "exited": true
-        },
-        {
-            "deviceId": "f0c2146c",
-            "name": "es.jacksparrot.nam3d",
-            "processId": 17118,
-            "exited": false
-        },
-        {
-            "deviceId": "f0c2146c",
-            "name": "es.jacksparrot.nam3d",
             "processId": 18325,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "f0c2146c",
             "name": "es.jacksparrot.nam3d",
             "processId": 18946,
+            "exited": true
+        },
+        {
+            "deviceId": "f0c2146c",
+            "name": "es.jacksparrot.match3",
+            "processId": 27547,
+            "exited": true
+        },
+        {
+            "deviceId": "f0c2146c",
+            "name": "es.jacksparrot.match3",
+            "processId": 28743,
+            "exited": true
+        },
+        {
+            "deviceId": "f0c2146c",
+            "name": "es.jacksparrot.match3",
+            "processId": 29509,
             "exited": false
         },
         {
