@@ -54,7 +54,7 @@ namespace Game.Load
             ServiceLocator.RegisterService(loginService);
             ServiceLocator.RegisterService(adsService);
             ServiceLocator.RegisterService(analyticsService);
-            ServiceLocator.RegisterService(iapService);
+            ServiceLocator.RegisterService<IIAPGameService>(iapService);
 
             //initialize services
             await servicesInitializer.Initialize();
@@ -65,9 +65,7 @@ namespace Game.Load
             {
                 ["test1"] = "es.jacksparrot.match3.test1"
             });
-            bool adsInitialized = await adsService.Initialize(Application.isEditor);
-
-            Debug.Log("AdsInitialized: " + adsInitialized);
+            await adsService.Initialize(Application.isEditor);
 
             gameConfig.Initialize(remoteConfig);
             gameProgression.Initialize(gameConfig);

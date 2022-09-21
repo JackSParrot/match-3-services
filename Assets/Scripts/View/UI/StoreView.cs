@@ -47,7 +47,6 @@ public class StoreView : MonoBehaviour
         _goldAmountText.text = _gameConfig.GoldInGoldPack.ToString();
         _adsGemsText.text = _gameConfig.GemsPerAd.ToString();
         _iapGemsText.text = _gameConfig.GemsPerIAP.ToString();
-        _iapGemsCostText.text = "Loading...";
         _gameProgression.OnInventoryChanged += UpdateCards;
 
         UpdateCards();
@@ -69,12 +68,7 @@ public class StoreView : MonoBehaviour
             StartCoroutine(WaitForAdReady());
         }
 
-        _buyIAPGemsButton.interactable = true;
-        if (!_iapService.IsReady())
-        {
-            _buyIAPGemsButton.interactable = false;
-            StartCoroutine(WaitForIAPReady());
-        }
+        StartCoroutine(WaitForIAPReady());
     }
 
     IEnumerator WaitForAdReady()
@@ -89,6 +83,8 @@ public class StoreView : MonoBehaviour
 
     IEnumerator WaitForIAPReady()
     {
+        _iapGemsCostText.text = "Loading...";
+        _buyIAPGemsButton.interactable = false;
         while (!_iapService.IsReady())
         {
             yield return new WaitForSeconds(0.5f);

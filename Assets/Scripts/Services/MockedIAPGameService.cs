@@ -1,9 +1,15 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Game.Services
 {
     public class MockedIAPGameService : IIAPGameService
     {
+        public async Task Initialize(Dictionary<string, string> products)
+        {
+            await Task.Yield();
+        }
+
         public bool IsReady()
         {
             return true;
