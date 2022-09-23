@@ -47,6 +47,7 @@ namespace Game.Load
             AdsGameService adsService = new AdsGameService("4920717", "Rewarded_Android");
             UnityIAPGameService iapService = new UnityIAPGameService();
             IGameProgressionProvider gameProgressionProvider = new GameProgressionProvider();
+            LocalizationService localizationService = new LocalizationService();
 
             //register services
             ServiceLocator.RegisterService(gameConfig);
@@ -56,6 +57,7 @@ namespace Game.Load
             ServiceLocator.RegisterService(adsService);
             ServiceLocator.RegisterService(analyticsService);
             ServiceLocator.RegisterService<IIAPGameService>(iapService);
+            ServiceLocator.RegisterService(localizationService);
 
             //initialize services
             await servicesInitializer.Initialize();
@@ -68,6 +70,7 @@ namespace Game.Load
             });
             await adsService.Initialize(Application.isEditor);
             await gameProgressionProvider.Initialize();
+            localizationService.Initialize("Spanish", true);
 
             gameConfig.Initialize(remoteConfig);
             gameProgression.Initialize(gameConfig, gameProgressionProvider);

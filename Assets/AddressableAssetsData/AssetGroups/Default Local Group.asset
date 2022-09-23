@@ -57,6 +57,14 @@ MonoBehaviour:
     m_Address: Cell_5
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 2455b51a4261cc549b954ebb8dd85fcc
+    m_Address: EnglishCroqueta
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7fe82e52a0be53a48b08d82f9de14f47
+    m_Address: SpanishCroqueta
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e0dbc082999d559479143b469d87ddcc, type: 2}
   m_SchemaSet:

@@ -132,6 +132,11 @@ namespace MVC.View
                     _movesText.text = _controller.Model.MovesRemaining.ToString();
                     _scoreText.text =
                         $"{_controller.Model.Score.ToString()}/{_controller.Model.TargetScore.ToString()}";
+                    bool destroyedOver5 = _animations.FindAll(a => a is DestroyCellAnimation).Count > 5;
+                    if (destroyedOver5)
+                    {
+                        UnityEngine.Handheld.Vibrate();
+                    }
                 }
             }
         }

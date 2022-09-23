@@ -1,3 +1,4 @@
+using System;
 using Game.Services;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class MainMenuView : MonoBehaviour
     private TMP_Text _levelText = null;
 
     private GameProgressionService _gameProgression;
+
     private void Awake()
     {
         _gameProgression = ServiceLocator.GetService<GameProgressionService>();
